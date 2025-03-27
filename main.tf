@@ -1,13 +1,20 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.75.1"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "app_server" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Update with a valid AMI
+resource "aws_instance" "myec2" {
+  ami           = "ami-0453ec754f44f9a4a"
   instance_type = "t2.micro"
-  key_name      = "my-key"                 # Update with your SSH key
   tags = {
-    Name = "AppServer"
+    Name = "Myec2"
   }
 }
-
