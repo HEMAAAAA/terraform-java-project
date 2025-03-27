@@ -6,6 +6,10 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
     }
 
+    parameters {
+        booleanParam(name: 'DESTROY_INFRA', defaultValue: false, description: 'Check to destroy infrastructure')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -26,8 +30,20 @@ pipeline {
         }
 
         stage('Terraform Apply') {
+            when {
+                expression { return !params.DESTROY_INFRA }
+            }
             steps {
                 sh 'terraform apply -auto-approve'
+            }
+        }
+
+        stage('Terraform Destroy') {
+            when {
+                expression { return params.DESTROY_INFRA }
+            }
+            steps {
+                sh 'terraform destroy -auto-approve'
             }
         }
     }
