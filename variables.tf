@@ -11,6 +11,10 @@ variable "ami_id" {
 }
 
 variable "key_name" {
-  default = "my-key"
+  default = "my-terraform-key"
+}
+
+variable "public_key_path" {
+  default = "~/.ssh/my-terraform-key.pub"
 }
 
