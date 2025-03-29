@@ -11,7 +11,7 @@ pipeline {
     }
 
     stages {
-       stage('Terraform Init') {
+        stage('Terraform Init') {
             steps {
                 sh 'terraform init'
             }
@@ -32,6 +32,19 @@ pipeline {
             }
         }
 
+        stage('Terraform Output') {
+            when {
+                expression { return !params.DESTROY_INFRA }
+            }
+            steps {
+                script {
+                    def output = sh(script: 'terraform output -json', returnStdout: true).trim()
+                    writeFile file: 'terraform_output.json', text: output
+                    echo "Terraform Output Saved: terraform_output.json"
+                }
+            }
+        }
+
         stage('Terraform Destroy') {
             when {
                 expression { return params.DESTROY_INFRA }
@@ -39,6 +52,12 @@ pipeline {
             steps {
                 sh 'terraform destroy -auto-approve'
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'terraform_output.json', onlyIfSuccessful: true
         }
     }
 }
