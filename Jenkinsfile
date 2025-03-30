@@ -34,6 +34,7 @@ pipeline {
                 terraform apply -var="public_key=${TF_PUBLIC_KEY}" -auto-approve
             '''
             }
+	  }
         }
 
         stage('Terraform Output') {
