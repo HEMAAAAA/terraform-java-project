@@ -24,12 +24,15 @@ pipeline {
             }
         }
 
-        stage('Terraform Apply') {
-            when {
-                expression { return !params.DESTROY_INFRA }
-            }
+         stage('Terraform Apply/Destroy') {
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                script {
+                    if (params.DESTROY_INFRA) {
+                        sh 'terraform destroy -auto-approve'
+                    } else {
+                        sh 'terraform apply -auto-approve tfplan'
+                    }
+                }
             }
         }
 
@@ -45,16 +48,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Terraform Destroy') {
-            when {
-                expression { return params.DESTROY_INFRA }
-            }
-            steps {
-                sh 'terraform destroy -auto-approve'
-            }
-        }
-    }
 
     post {
         always {
