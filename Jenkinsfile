@@ -29,10 +29,11 @@ pipeline {
                 expression { return !params.DESTROY_INFRA }
             }
             steps {
-		withCredentials([string(credentialsId: 'terraform-pub', variable: 'TF_PUBLIC_KEY')]) {
+
             sh '''
                 terraform apply -var="public_key=${TF_PUBLIC_KEY}" -auto-approve
             '''
+
             }
 	  }
         }
