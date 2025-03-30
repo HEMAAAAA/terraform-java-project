@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID     = credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
-	TF_PUBLIC_KEY 	      = credentials('terraform-pub')
+        TF_VAR_public_key     = credentials('terraform-pub')  
     }
 
     parameters {
@@ -29,11 +29,7 @@ pipeline {
                 expression { return !params.DESTROY_INFRA }
             }
             steps {
-
-            sh '''
-                terraform apply -var="public_key=${TF_PUBLIC_KEY}" -auto-approve
-            '''
-
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
 
@@ -63,7 +59,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'terraform_output.json', onlyIfSuccessful: true
+            cleanWs()
         }
     }
 }
-
