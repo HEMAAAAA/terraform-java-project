@@ -14,7 +14,8 @@ variable "key_name" {
   default = "my-terraform-key"
 }
 
-variable "public_key_path" {
-  default = "~/.ssh/my-terraform-key.pub"
+variable "public_key" {
+  description = "The public key to use for SSH access"
+  type        = string
 }
 
