@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = var.key_name-${timestamp()}"
+  key_name   = "${var.key_name}-${timestamp()}"
   public_key = var.public_key
 }
 
