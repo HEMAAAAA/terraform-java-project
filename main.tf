@@ -7,6 +7,10 @@ resource "aws_key_pair" "deployer" {
   public_key = var.public_key
 }
 
+lifecycle {
+    ignore_changes = [key_name]
+  }
+
 module "jenkins" {
   source             = "./modules/ec2"
   instance_name      = "jenkins-master"
