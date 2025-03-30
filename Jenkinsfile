@@ -47,7 +47,6 @@ pipeline {
                     echo "Terraform Output Saved: terraform_output.json"
                 }
             }
-        }
 
     post {
         always {
