@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-         stage('Terraform Apply/Destroy') {
+        stage('Terraform Apply/Destroy') {
             steps {
                 script {
                     if (params.DESTROY_INFRA) {
@@ -47,6 +47,8 @@ pipeline {
                     echo "Terraform Output Saved: terraform_output.json"
                 }
             }
+        }  // ← **THIS WAS MISSING**
+    }
 
     post {
         always {
