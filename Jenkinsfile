@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID     = credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
-	TF_PUBLIC_KEY 	      = credentials('terraform-user')
+	TF_PUBLIC_KEY 	      = credentials('terraform-pub')
     }
 
     parameters {
